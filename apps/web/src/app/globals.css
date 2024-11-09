@@ -10,6 +10,22 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  .card-wrapper {
+    @apply relative bg-border rounded-xl overflow-hidden;
+  }
+  .card-wrapper::before {
+    background: conic-gradient(
+      rgba(124, 203, 137, 0.5) 0deg,
+      rgba(156, 202, 163, 0.75) 0deg,
+      transparent 45deg
+    );
+
+    @apply content-[''] absolute w-[150%] h-[150%] animate-border-spin -left-1/4 -top-1/4;
+  }
+  .card-content {
+    @apply rounded-xl px-0 py-5 md:p-10  justify-center flex flex-col z-10 bg-background absolute w-[calc(100%-2px)] h-[calc(100%-2px)] top-px left-px;
+  }
 }
 
 @layer base {

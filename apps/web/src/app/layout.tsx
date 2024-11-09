@@ -50,7 +50,8 @@ export default async function RootLayout({
           geistMono.variable,
           "antialiased font-sans",
           "text-[clamp(0.875rem,0.667rem+0.52vw,1rem)]",
-          "bg-background text-foreground overflow-x-hidden"
+          "bg-background text-foreground overflow-x-hidden",
+          "selection:bg-[#a4e1ae] selection:text-black"
         )}
       >
         <Layout session={session}>
