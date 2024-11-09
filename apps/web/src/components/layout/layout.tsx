@@ -4,11 +4,12 @@ import { AiFillGithub } from "react-icons/ai";
 import { BaseLink, ExternalLink } from "../core/links";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import { Button } from "../ui/button";
-import { IoMdGlobe } from "react-icons/io";
+import { IoMdGlobe, IoMdLogOut } from "react-icons/io";
 import { Session } from "next-auth";
 import { signOut } from "@/auth";
 import Image from "next/image";
 import LogoSVGComponent from "../ui/logo";
+import { Typewriter } from "../ui/typewriter";
 
 export function Layout({
   children,
@@ -25,10 +26,10 @@ export function Layout({
         <div className="flex flex-row items-center gap-x-2">
           <BaseLink href="/" title={siteConfig.name}>
             <LogoSVGComponent className="h-12 aspect-auto" />
-            <p className="sr-only">{siteConfig.name}</p>
+            <span className="sr-only">{siteConfig.name}</span>
           </BaseLink>
           <div className="w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
-          Shorten your URLs
+          <Typewriter />
         </div>
         <div className="flex-grow" />
         {/* TODO: Check if logged in to display logout */}
@@ -38,10 +39,15 @@ export function Layout({
               "use server";
               await signOut();
             }}
+            className="flex items-center"
           >
-            <Button size="sm" variant="outline" className="text-destructive">
-              Logout
-            </Button>
+            <button
+              className="text-destructive hover:text-destructive/90 hover:scale-90 transition-all duration-150"
+              title="Logout"
+            >
+              <IoMdLogOut className="h-6 w-6" />
+              <span className="sr-only">Logout</span>
+            </button>
           </form>
         )}
         <ExternalLink
@@ -55,7 +61,13 @@ export function Layout({
         {children}
       </div>
       <footer className="flex items-center flex-row gap-6 py-5 border-t md:border md:border-b-0 md:rounded-t-lg px-4">
-        <p className="!text-sm space-x-1">© 2024 - {siteConfig.name}</p>
+        <div className="flex flex-row items-center space-x-2">
+          <p className="!text-sm space-x-1 uppercase">
+            {siteConfig.name} © {new Date().getFullYear()}
+          </p>
+          <span className="w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
+          <p className="!text-sm space-x-1">{siteConfig.author}</p>
+        </div>
         <div className="flex-grow" />
         <ExternalLink
           href={siteConfig.links.website}

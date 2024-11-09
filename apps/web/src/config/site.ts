@@ -9,6 +9,7 @@ const siteConfig = {
   icon: `${process.env.NEXT_PUBLIC_BASE_URL || ""}/static/images/logo.png`,
   // socialBanner: `${process.env.BASE_PATH || ""}/static/images/twitter-card.png`,
   description: `${siteName} is a URL shortener which makes it easy to shorten and share your URLs.`,
+  tagline: "Shorten your URLs",
   language: "en-UK",
   locale: "en-UK",
   author: "Amil Muhammed Hamza",
