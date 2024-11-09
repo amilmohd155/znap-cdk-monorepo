@@ -5,9 +5,12 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const texts = [
-  siteConfig.tagline,
-  "Login to unlock more features",
-  `Created by ${siteConfig.author}`,
+  "Shrink URLs",
+  "keep history",
+  "boost efficiency!",
+  //   siteConfig.tagline,
+  //   "Login to unlock more features",
+  `all crafted by ${siteConfig.author}`,
 ] as const;
 
 const LETTER_DELAY = 0.025;
@@ -46,7 +49,7 @@ export const Typewriter = () => {
               ease: "easeInOut",
             }}
             key={`${textIndex}-${index}`}
-            className="relative"
+            className="relative select-none"
           >
             <motion.span
               initial={{ opacity: 0 }}
