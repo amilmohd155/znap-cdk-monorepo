@@ -1,6 +1,5 @@
 "use server";
 import { signIn as authSignIn } from "@/auth";
-import { AuthError } from "next-auth";
 
 export async function signInAction(formData: FormData) {
   //   "use server";
