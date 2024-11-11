@@ -1,81 +1,38 @@
-# Turborepo starter
+## DB
 
-This is an official starter Turborepo.
+# Base Index
 
-## Using this example
+| pk            | sk                                   | ...attributes                         | notes                         |
+| :------------ | :----------------------------------- | :------------------------------------ | :---------------------------- |
+| USER#id       | PROFILE                              | Information about this user           |                               |
+| USER#id       | SESSION#token                        | Session token for the user            | All sessions of the user      |
+| USER#id       | ACCOUNT#providerId#providerAccountId | User’s account information            | Associate account of the user |
+| URL#shortCode | URL#createdAt                        | Original URL, expirationTime, longUrl | Shortened URL item            |
+|               |                                      |                                       |                               |
 
-Run the following command:
+# Global Secondary Index (1)
 
-```sh
-npx create-turbo@latest
-```
+| GSI1PK             | GSI1SK                    | ...attributes                         | notes                                  |
+| :----------------- | :------------------------ | :------------------------------------ | :------------------------------------- |
+| USER#email         | USER#email                | User’s email information              | For querying user by email             |
+| SESSION#token      | SESSION#token             | Session token for the user            | To retrieve session by token           |
+| ACCOUNT#providerId | ACCOUNT#providerAccountId | Account provider details              | To associate account by provider       |
+| URL#shortCode      | URL#createdAt             | Original URL, expirationTime, longUrl | Access URL by short code and timestamp |
+|                    |                           |                                       |                                        |
 
-## What's inside?
+# Attribute Definitions
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+| Attribute         | Type   | Description                                                                                          |
+| :---------------- | :----- | :--------------------------------------------------------------------------------------------------- |
+| PK                | String | Partition key for the item (USER#userId, URL#shortCode).                                             |
+| SK                | String | Sort key for the item (PROFILE, SESSION#token, ACCOUNT#providerId#providerAccountId, URL#createdAt). |
+| userId            | String | Unique identifier for the user (present for user-related items).                                     |
+| email             | String | User's email address, used for querying by email.                                                    |
+| token             | String | Token for session management (only for session items).                                               |
+| providerId        | String | ID of the account provider, used for associating external accounts.                                  |
+| providerAccountId | String | ID of the user in the provider system, used for external account linking.                            |
+| shortCode         | String | Shortened URL code (only for URL items).                                                             |
+| longUrl           | String | Original URL (only for URL items).                                                                   |
+| expires           | Number | Expiration timestamp for session or URL (optional).                                                  |
+| createdAt         | Number | Timestamp for when URL or session was created.                                                       |
+|                   |        |                                                                                                      |
