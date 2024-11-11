@@ -1,3 +1,7 @@
+import { getUrlFromShortCode } from "@/actions/items";
+import { isUrlExpired } from "@/lib/utils";
+import { notFound, permanentRedirect } from "next/navigation";
+
 type AliasPageProps = {
   params: {
     alias: string;
@@ -5,6 +9,13 @@ type AliasPageProps = {
 };
 
 // Todo implement this page
-export default function AliasPage({ params: { alias } }: AliasPageProps) {
-  return <div>Example -- Alias</div>;
+export default async function AliasPage({ params: { alias } }: AliasPageProps) {
+  const result = await getUrlFromShortCode(alias);
+
+  // Not found if not founf or link expired
+  if (!result || isUrlExpired(result.expires)) {
+    notFound();
+  }
+
+  return permanentRedirect(result.longUrl);
 }
