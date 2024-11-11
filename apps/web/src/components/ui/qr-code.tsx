@@ -11,7 +11,7 @@ type QRCodeProps = {
   buttonClassName?: string;
 };
 
-const tag = "qrcode" as const;
+// const tag = "qrcode" as const;
 
 export const QRCode = ({ value, size = 64, className }: QRCodeProps) => {
   const handleSaveQRCode = () => {};

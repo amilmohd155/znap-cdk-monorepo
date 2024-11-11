@@ -21,7 +21,7 @@ const MAIN_FADE_DURATION = 0.25;
 
 const SWAP_DELAY_IN_MS = 5500;
 
-export const Typewriter = () => {
+export const Typewriter = ({ className }: { className?: string }) => {
   const [textIndex, setTextIndex] = useState(0);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export const Typewriter = () => {
   }, []);
 
   return (
-    <span>
+    <span className={className}>
       {texts[textIndex].split("").map((char, index) => {
         return (
           <motion.span
@@ -49,7 +49,7 @@ export const Typewriter = () => {
               ease: "easeInOut",
             }}
             key={`${textIndex}-${index}`}
-            className="relative select-none"
+            className="relative select-none tracking-wider"
           >
             <motion.span
               initial={{ opacity: 0 }}

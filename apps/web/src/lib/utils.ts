@@ -12,10 +12,14 @@ export function cn(...inputs: ClassValue[]) {
 export const DEFAULT_ALIAS_LENGTH = 6 as const;
 export const URL_LIFETIME_IN_MINUTES = 5 as const;
 
-// export function isUrlExpired()
+export function isUrlExpired(expires: number) {
+  const now = Math.floor(Date.now() / 1000);
+
+  return now >= expires;
+}
 
 export function removeHttps(url: string) {
-  return url.replace("https://", "");
+  return url.replace(/^https?:\/\//, "");
 }
 
 export function isValidUrl(url: string) {

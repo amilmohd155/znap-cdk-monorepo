@@ -1,15 +1,16 @@
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Session } from "next-auth";
+import { Illustration } from "../ui/illustration";
+import { auth } from "@/auth";
 
-export const Hero = ({
+export async function Hero({
   className,
-  session,
   ...props
-}: React.ComponentProps<"div"> & { session: Session | null }) => {
+}: React.ComponentProps<"div">) {
+  const session = await auth();
+
   return (
     <div
       className={cn(
@@ -18,22 +19,8 @@ export const Hero = ({
       )}
       {...props}
     >
-      {/* <h1 className="text-xl md:text-3xl font-bold">Shorten your URLs</h1> */}
-      <Link
-        href="https://storyset.com/online"
-        aria-label="Online illustrations by Storyset"
-        rel="noopener noreferrer"
-        target="_blank"
-        title="Online illustrations by Storyset"
-      >
-        <Image
-          src="/hero.svg"
-          alt="Hero illustration - Online illustrations by Storyset"
-          width={720}
-          height={720}
-          className="w-full aspect-video object-contain"
-        />
-      </Link>
+      <Illustration src="/hero.svg" alt="Hero illustration" />
+
       <div className="items-center flex flex-col gap-y-3">
         <h4 className="text-xs md:text-lg">
           Track and manage your shortened URLs with ease.
@@ -57,4 +44,4 @@ export const Hero = ({
       </div>
     </div>
   );
-};
+}

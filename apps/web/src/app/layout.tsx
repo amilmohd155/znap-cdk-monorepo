@@ -3,9 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import siteConfig from "@/config/site";
 import { cn } from "@/lib/utils";
-import { Layout } from "@/components/layout/layout";
 import React from "react";
-import { auth } from "@/auth";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,25 +21,27 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   creator: siteConfig.author,
   applicationName: siteConfig.name,
+  metadataBase: new URL(siteConfig.url!),
   alternates: {
     canonical: "/",
+  },
+  twitter: {
+    creator: "@amilmohd155",
   },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  minimumScale: 1,
+  // maximumScale: 1,
 };
 
 export default async function RootLayout({
-  card,
   children,
 }: Readonly<{
-  card: React.ReactNode;
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
@@ -54,10 +54,7 @@ export default async function RootLayout({
           "selection:bg-[#a4e1ae] selection:text-black"
         )}
       >
-        <Layout session={session}>
-          {children}
-          {card}
-        </Layout>
+        {children}
       </body>
     </html>
   );

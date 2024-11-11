@@ -1,4 +1,4 @@
-import { signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
 import siteConfig from "@/config/site";
 
 import { AiFillGithub } from "react-icons/ai";
@@ -7,7 +7,9 @@ import { BaseLink, ExternalLink } from "@/components/core/links";
 import LogoSVGComponent from "@/components/ui/logo";
 import { Typewriter } from "@/components/ui/typewriter";
 
-export const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+export async function Header() {
+  const session = await auth();
+
   return (
     <header className="flex items-center px-4 py-3 gap-x-5 border-b md:border md:border-t-0 md:rounded-b-lg">
       <div className="flex flex-row items-center gap-x-2">
@@ -15,11 +17,11 @@ export const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           <LogoSVGComponent className="h-12 aspect-auto" />
           <span className="sr-only">{siteConfig.name}</span>
         </BaseLink>
-        <div className="w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
-        <Typewriter />
+        <div className="w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400 hidden md:block" />
+        <Typewriter className="md:block hidden" />
       </div>
       <div className="flex-grow" />
-      {isLoggedIn && (
+      {session?.user && (
         <form
           action={async () => {
             "use server";
@@ -44,4 +46,4 @@ export const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       </ExternalLink>
     </header>
   );
-};
+}
