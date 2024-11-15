@@ -5,7 +5,16 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "cdk.out/**"]
+    },
+    "deploy": {
+      "dependsOn": ["cdk#build"],
+      "outputs": []
+    },
+    "deploy:prod": {
+      "dependsOn": ["cdk#build"],
+      "cache": false,
+      "outputs": []
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -13,6 +22,10 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "synth": {
+      "dependsOn": ["cdk#build"],
+      "outputs": ["dist/**", "cdk.out/**"]
     }
   }
 }

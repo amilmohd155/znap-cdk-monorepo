@@ -1,12 +1,16 @@
 {
   "name": "znap-cdk-monorepo",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "dev:dynamodb": "cmd /c  dynamodb-setup-dev.bat",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "deploy": "turbo deploy",
+    "deploy:prod": "turbo deploy:prod",
+    "synth": "turbo synth",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "dev:dynamodb": "cmd /c  dynamodb-setup-dev.bat"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
