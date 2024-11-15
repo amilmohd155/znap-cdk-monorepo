@@ -1,17 +1,21 @@
 "use server";
 import { signIn as authSignIn } from "@/auth";
 
+import { redirect } from "next/navigation";
+
 export async function signInAction(formData: FormData) {
-  //   "use server";
   const providerId =
     (formData.get("providerId") as string) ??
     (() => {
       throw new Error("Missing providerId");
     })();
 
+  let callbackUrl = "/";
+
   try {
-    await authSignIn(providerId, {
+    callbackUrl = await authSignIn(providerId, {
       redirectTo: "/",
+      redirect: false,
     });
   } catch (error) {
     // if (error instanceof AuthError) {
@@ -19,5 +23,7 @@ export async function signInAction(formData: FormData) {
     // }
     console.log(error);
     throw error;
+  } finally {
+    redirect(callbackUrl);
   }
 }

@@ -1,9 +1,13 @@
 "use client";
 
+import { ErrorType } from "@/types/error.types";
 import Image from "next/image";
 import Link from "next/link";
+import { match } from "ts-pattern";
 
-export default function Error({}: {
+export default function Error({
+  error,
+}: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
@@ -24,6 +28,33 @@ export default function Error({}: {
           className="w-full aspect-video object-contain"
         />
       </Link>
+      <ErrorMessageComponent errorMessage={error.message} />
+      {/* <section className="text-center leading-snug text-sm">
+        <h1 className="text-xl md:text-2xl my-1 font-semibold tracking-wide text-destructive">
+          Oops! Something went wrong
+        </h1>
+        <h2>Brace yourself till we get the issue fixed</h2>
+        <h2>You may also refresh the page or try again</h2>
+      </section> */}
+    </article>
+  );
+}
+
+const ErrorMessageComponent = ({ errorMessage }: { errorMessage: string }) => {
+  const ErrorMessage = match(errorMessage)
+    .with(ErrorType.RATE, () => (
+      <section className="text-center leading-snug text-sm">
+        <h1 className="text-xl md:text-2xl my-1 font-semibold tracking-wide text-destructive">
+          Oops! An error has occured
+        </h1>
+        <ul className="list-inside list-disc">
+          <li>The URL was recently shortened</li>
+          <li>The URL is not allowed</li>
+          <li>You shortened many URLs in a short time</li>
+        </ul>
+      </section>
+    ))
+    .otherwise(() => (
       <section className="text-center leading-snug text-sm">
         <h1 className="text-xl md:text-2xl my-1 font-semibold tracking-wide text-destructive">
           Oops! Something went wrong
@@ -31,6 +62,7 @@ export default function Error({}: {
         <h2>Brace yourself till we get the issue fixed</h2>
         <h2>You may also refresh the page or try again</h2>
       </section>
-    </article>
-  );
-}
+    ));
+
+  return ErrorMessage;
+};
