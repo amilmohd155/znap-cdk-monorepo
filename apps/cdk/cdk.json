@@ -1,5 +1,5 @@
 {
-  "app": "pnpm ts-node --prefer-ts-exts bin/cdk.ts",
+  "app": "node dist/bin/cdk.js",
   "watch": {
     "include": ["**"],
     "exclude": [
