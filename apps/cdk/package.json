@@ -10,7 +10,8 @@
     "watch": "tsc -w",
     "test": "jest",
     "deploy": "cdk deploy \"Prev/*\"",
-    "deploy:prod": "cdk deploy \"Prod/*\"",
+    "deploy:prev": "cdk deploy \"Prev/*\" --require-approval never",
+    "deploy:prod": "cdk deploy \"Prod/*\" --require-approval never",
     "synth": "cdk synth"
   },
   "devDependencies": {

@@ -11,6 +11,11 @@
       "dependsOn": ["cdk#build"],
       "outputs": []
     },
+    "deploy:prev": {
+      "dependsOn": ["cdk#build"],
+      "cache": true,
+      "outputs": []
+    },
     "deploy:prod": {
       "dependsOn": ["cdk#build"],
       "cache": false,
