@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { CdkStack } from "../lib/cdk-stack";
 import { getConfig } from "../lib/config";
 import { CdkStage } from "../lib/cdk-stage";
 
@@ -15,6 +14,6 @@ new CdkStage(app, "Prev", {
 });
 
 // Create the production stage
-new CdkStack(app, "Prod", {
+new CdkStage(app, "Prod", {
   config,
 });
