@@ -3,10 +3,10 @@ const siteName = "Znap URL" as const;
 const siteConfig = {
   name: siteName,
   headerTitle: siteName,
-  url: process.env.NEXT_PUBLIC_BASE_URL,
+  url: process.env.NEXT_PUBLIC_URL,
   year: 2024,
   repository: "https://github.com/amilmohd155/znap-cdk-monorepo",
-  icon: `${process.env.NEXT_PUBLIC_BASE_URL || ""}/static/images/logo.png`,
+  icon: `${process.env.NEXT_PUBLIC_URL || ""}/static/images/logo.png`,
   // socialBanner: `${process.env.BASE_PATH || ""}/static/images/twitter-card.png`,
   description: `${siteName} is a URL shortener which makes it easy to shorten and share your URLs.`,
   tagline: "Shorten your URLs",
