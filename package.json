@@ -7,7 +7,7 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "deploy": "turbo deploy",
-    "deploy:prev": "turbo deploy prev",
+    "deploy:prev": "turbo deploy:prev",
     "deploy:prod": "turbo deploy:prod",
     "synth": "turbo synth",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
