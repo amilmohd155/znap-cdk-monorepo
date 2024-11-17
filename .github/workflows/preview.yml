@@ -3,9 +3,15 @@ name: Preview build and deploy - AWS CDK | Next.js
 on:
   push:
     branches: [preview]
+  workflow_dispatch:
+
+permissions: 
+  id-token: write
+  contents: read
 
 env:
   AWS_REGION: ${{vars.AWS_REGION}}
+  
 jobs:
   cdk:
     runs-on: ubuntu-latest
