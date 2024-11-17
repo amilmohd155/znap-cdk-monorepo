@@ -127,4 +127,4 @@ jobs:
         run: vercel build --cwd apps/web --token=${{secrets.VERCEL_TOKEN}}
 
       - name: Deploy project artifacts
-        run: vercel deploy --prebuilt --token=${{secrets.VERCEL_TOKEN}}
+        run: vercel deploy --prebuilt --cwd apps/web --token=${{secrets.VERCEL_TOKEN}}
