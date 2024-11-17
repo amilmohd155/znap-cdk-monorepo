@@ -19,7 +19,7 @@ jobs:
     environment: preview
 
     env:
-      GITHUB_ACTIONS_ROLE_ARN: ${{secrets.ACTIONS_ROLE_ARN}}
+      ACTIONS_ROLE_ARN: ${{secrets.ACTIONS_ROLE_ARN}}
       AWS_TABLE_NAME: ${{vars.AWS_TABLE_NAME}}
       AWS_EXTERNAL_ID: ${{secrets.AWS_EXTERNAL_ID}}
       AWS_SECRET_NAME: ${{vars.AWS_SECRET_NAME}}
@@ -60,7 +60,8 @@ jobs:
       - name: CDK deploy
         run: |
           export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity | jq -r '.Account')
-          pnpm run deploy:prev
+          pnpm run build --filter cdk
+          pnpm dlx cdk deploy "Prev/*" --require-approval never --filter cdk
 
       - name: Get secrets from AWS Secrets Manager
         id: secrets
