@@ -5,13 +5,13 @@ on:
     branches: [preview]
   workflow_dispatch:
 
-permissions: 
+permissions:
   id-token: write
   contents: read
 
 env:
   AWS_REGION: ${{vars.AWS_REGION}}
-  
+
 jobs:
   cdk:
     runs-on: ubuntu-latest
@@ -56,7 +56,8 @@ jobs:
 
       - name: CDK deploy
         run: |
-          pnpm run deploy:prev --filter=cdk
+          export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity | jq -r '.Account')
+          pnpm run deploy:prev
 
       - name: Get secrets from AWS Secrets Manager
         id: secrets
