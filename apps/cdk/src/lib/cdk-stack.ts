@@ -24,7 +24,7 @@ export class CdkStack extends cdk.Stack {
 
     // 2. Create a new table ✅
     const table = new TableV2(this, "znap-url-dynamodb", {
-      tableName: process.env.TABLE_NAME,
+      tableName: config.AWS_TABLE_NAME,
       partitionKey: {
         name: "PK",
         type: AttributeType.STRING,
@@ -53,12 +53,12 @@ export class CdkStack extends cdk.Stack {
 
     // 4. Create a client iam user ✅
     const user = new User(this, "DynamodbAccessUser", {
-      userName: "Znap-URL-DynamodbAcessUser",
+      userName: config.AWS_DYNAMODB_USER,
     });
 
     // 5. Create a policy to allow access the table using table arn ✅
     const dynamodbAccessPolicy = new Policy(this, "dynamodbAccessPolicy", {
-      policyName: "Znap-URL-DynamodbAccessPolicy",
+      policyName: config.AWS_DYNAMODB_POLICY,
       statements: [
         new PolicyStatement({
           effect: Effect.ALLOW,
@@ -77,9 +77,9 @@ export class CdkStack extends cdk.Stack {
 
     // 6. Create a role with the client iam user arn as principal and externalID (added security) ✅
     const dynamodbAccessRole = new Role(this, "DynamodbAccessRole", {
-      roleName: "Znap-URL-DynamodbAccessRole",
+      roleName: config.AWS_DYNAMODB_ROLE,
       assumedBy: new ArnPrincipal(user.userArn),
-      externalIds: [config.EXTERNAL_ID],
+      externalIds: [config.AWS_EXTERNAL_ID],
     });
 
     // attach the policy from step 5 ✅
@@ -87,7 +87,7 @@ export class CdkStack extends cdk.Stack {
 
     // 7. Create a policy that allows the user to assume the role (using sts) in step 6 with the role arn ✅
     const assumeRolePolicy = new Policy(this, "AssumeRolePolicy", {
-      policyName: "Znap-URL-AssumeRolePolicy",
+      policyName: config.AWS_ASSUME_ROLE_POLICY,
       statements: [
         new PolicyStatement({
           effect: Effect.ALLOW,
@@ -107,7 +107,7 @@ export class CdkStack extends cdk.Stack {
 
     // 10. Create a secret for the accesskey ✅
     const templatedSecret = new Secret(this, "TemplatedSecret", {
-      secretName: "znap-url-secret",
+      secretName: config.AWS_SECRET_NAME,
       secretObjectValue: {
         AWS_ACCESS_KEY_ID: cdk.SecretValue.unsafePlainText(
           accessKey.accessKeyId
@@ -118,6 +118,6 @@ export class CdkStack extends cdk.Stack {
     });
 
     // 11. Allow the role from github action to read the secret ✅
-    templatedSecret.grantRead(new ArnPrincipal(config.AWS_ROLE_ARN));
+    templatedSecret.grantRead(new ArnPrincipal(config.ACTIONS_ROLE_ARN));
   }
 }

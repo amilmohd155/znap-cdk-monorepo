@@ -11,9 +11,17 @@ const app = new cdk.App();
 // Create the preview stage
 new CdkStage(app, "Prev", {
   config,
+  tags: {
+    Preview: "true",
+    ZnapURL: "true",
+  },
 });
 
 // Create the production stage
 new CdkStage(app, "Prod", {
   config,
+  tags: {
+    Development: "true",
+    ZnapURL: "true",
+  },
 });

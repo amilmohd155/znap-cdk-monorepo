@@ -3,14 +3,30 @@ name: Preview build and deploy - AWS CDK | Next.js
 on:
   push:
     branches-ignore: [main]
+    branches: [preview]
 
+env:
+  AWS_REGION: ${{vars.AWS_REGION}}
 jobs:
   cdk:
     runs-on: ubuntu-latest
+
     environment: preview
+
+    env:
+      GITHUB_ACTIONS_ROLE_ARN: ${{secrets.ACTIONS_ROLE_ARN}}
+      AWS_TABLE_NAME: ${{vars.AWS_TABLE_NAME}}
+      AWS_EXTERNAL_ID: ${{secrets.AWS_EXTERNAL_ID}}
+      AWS_SECRET_NAME: ${{vars.AWS_SECRET_NAME}}
+      AWS_DYNAMODB_USER: ${{vars.AWS_DYNAMODB_USER}}
+      AWS_DYNAMODB_ROLE: ${{vars.AWS_DYNAMODB_ROLE}}
+      AWS_DYNAMODB_POLICY: ${{vars.AWS_DYNAMODB_POLICY}}
+      AWS_ASSUME_ROLE_POLICY: ${{vars.AWS_ASSUME_ROLE_POLICY}}
+
     outputs:
-      AWS_ACCESS_KEY_ID: ${{ steps.secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ steps.secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ steps.secrets.outputs.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ steps.secrets.outputs.AWS_SECRET_ACCESS_KEY }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,7 +44,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{vars.AWS_REGION}}
-          role-to-assume: ${{secrets.AWS_ROLE_ARN}}
+          role-to-assume: ${{secrets.ACTIONS_ROLE_ARN}}
 
       - name: CDK deploy
         run: |
@@ -51,12 +67,23 @@ jobs:
 
   nextjs:
     runs-on: ubuntu-latest
+
     environment: preview
+
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+      AUTH_GITHUB_ID: ${{secrets.AUTH_GITHUB_ID}}
+      AUTH_GITHUB_SECRET: ${{secrets.AUTH_GITHUB_SECRET}}
+
+      AUTH_SECRET: ${{secrets.AUTH_SECRET}}
+
+      AWS_ACCESS_KEY_ID: ${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}
+
     needs: cdk
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
