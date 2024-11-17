@@ -60,7 +60,7 @@ jobs:
       - name: CDK deploy
         run: |
           export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity | jq -r '.Account')
-          pnpm run deploy:prev
+          cd apps/cdk && cdk deploy Prev/* --require-approval never
 
       - name: Get secrets from AWS Secrets Manager
         id: secrets
