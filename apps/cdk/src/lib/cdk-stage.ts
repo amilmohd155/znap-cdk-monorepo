@@ -8,7 +8,6 @@ export class CdkStage extends Stage {
     super(scope, id, props);
 
     new CdkStack(this, "ZnapURLCdkStack", {
-      stackName: "ZnapURLCdkStack",
       config: props?.config!,
     });
   }

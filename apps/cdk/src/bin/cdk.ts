@@ -11,15 +11,21 @@ const app = new cdk.App();
 // Create the preview stage
 new CdkStage(app, "Prev", {
   config,
+  stackName: "ZnapURLPreviewCdkStack",
   tags: {
     Preview: "true",
     ZnapURL: "true",
+  },
+  env: {
+    account: process.env.AWS_ACCESS_KEY_ID,
+    region: process.env.AWS_DEFAULT_REGION,
   },
 });
 
 // Create the production stage
 new CdkStage(app, "Prod", {
   config,
+  stackName: "ZnapURLCdkStack",
   tags: {
     Development: "true",
     ZnapURL: "true",
