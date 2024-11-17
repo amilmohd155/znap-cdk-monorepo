@@ -3,7 +3,10 @@ const siteName = "Znap URL" as const;
 const siteConfig = {
   name: siteName,
   headerTitle: siteName,
-  url: process.env.NEXT_PUBLIC_URL || "http://localhost:3000",
+  url:
+    process.env.NEXT_PUBLIC_URL || process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000",
   year: 2024,
   repository: "https://github.com/amilmohd155/znap-cdk-monorepo",
   description: `${siteName} is a URL shortener which makes it easy to shorten and share your URLs.`,
