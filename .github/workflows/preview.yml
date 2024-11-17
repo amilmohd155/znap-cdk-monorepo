@@ -124,7 +124,7 @@ jobs:
         run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
       - name: Build project artifacts
-        run: pnpm run build --filter=web --token=${{secrets.VERCEL_TOKEN}}
+        run: vercel build --cwd apps/web --token=${{secrets.VERCEL_TOKEN}}
 
       - name: Deploy project artifacts
         run: vercel deploy --prebuilt --token=${{secrets.VERCEL_TOKEN}}
