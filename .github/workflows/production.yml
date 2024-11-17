@@ -1,9 +1,9 @@
-name: Production build and deploy - AWS CDK | Next.js
+# name: Production build and deploy - AWS CDK | Next.js
 
-on:
-  push:
-    branches: [main]
+# on:
+#   push:
+#     branches: [main]
 
-jobs:
-  cdk:
-    runs-on: ubuntu-latest
+# jobs:
+#   cdk:
+#     runs-on: ubuntu-latest
