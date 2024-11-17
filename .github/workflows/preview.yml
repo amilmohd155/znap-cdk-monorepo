@@ -2,7 +2,6 @@ name: Preview build and deploy - AWS CDK | Next.js
 
 on:
   push:
-    branches-ignore: [main]
     branches: [preview]
 
 env:
