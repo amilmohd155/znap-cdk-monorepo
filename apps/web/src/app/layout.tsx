@@ -42,6 +42,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("RootLayout", process.env.AUTH_SECRET);
+
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
