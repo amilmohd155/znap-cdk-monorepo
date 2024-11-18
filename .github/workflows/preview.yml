@@ -76,10 +76,8 @@ jobs:
       - name: Set outputs
         id: set-outputs
         run: |
-          ACCESS_KEY_ID=$(echo "${{ steps.secrets.outputs.secrets }}" | jq -r '.ZNAP_AWS_ACCESS_KEY_ID')
-          SECRET_ACCESS_KEY=$(echo "${{ steps.secrets.outputs.secrets }}" | jq -r '.ZNAP_AWS_SECRET_ACCESS_KEY')
-          echo "AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID" >> $GITHUB_OUTPUT
-          echo "AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY" >> $GITHUB_OUTPUT
+          echo "AWS_ACCESS_KEY_ID=${ZNAP_AWS_ACCESS_KEY_ID}" >> $GITHUB_OUTPUT
+          echo "AWS_SECRET_ACCESS_KEY=${ZNAP_AWS_SECRET_ACCESS_KEY}" >> $GITHUB_OUTPUT
 
   nextjs:
     runs-on: ubuntu-latest
@@ -125,7 +123,7 @@ jobs:
       - name: Pull vercel environment inforamation
         run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
-      - name: Display outputs
+      - name: Debug outputs from cdk
         run: |
           echo "AWS_ACCESS_KEY_ID=${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}"
           echo "AWS_SECRET_ACCESS_KEY=${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}"
@@ -145,16 +143,6 @@ jobs:
 
       - name: Display .vercel/.env.preview.local Content
         run: cat .vercel/.env.preview.local
-
-      # - name: Pull the GitHub environment variables
-      #   run: |
-      #     vercel env add preview AWS_REGION "${{ vars.AWS_REGION }}" --token=${{ secrets.VERCEL_TOKEN }}
-      #     vercel env add preview AWS_ACCESS_KEY_ID "${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}" --token=${{ secrets.VERCEL_TOKEN }}
-      #     vercel env add preview AWS_SECRET_ACCESS_KEY "${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}" --token=${{ secrets.VERCEL_TOKEN }}
-      #     vercel env add preview AUTH_GITHUB_ID "${{ secrets.AUTH_GITHUB_ID }}" --token=${{ secrets.VERCEL_TOKEN }}
-      #     vercel env add preview AUTH_GITHUB_SECRET "${{ secrets.AUTH_GITHUB_SECRET }}" --token=${{ secrets.VERCEL_TOKEN }}
-      #     vercel env add preview AUTH_SECRET "${{ secrets.AUTH_SECRET }}" --token=${{ secrets.VERCEL_TOKEN }}
-      #     vercel env add preview AWS_TABLE_NAME "${{ vars.AWS_TABLE_NAME }}" --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build project artifacts
         run: vercel build --token=${{secrets.VERCEL_TOKEN}}
