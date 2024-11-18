@@ -78,10 +78,10 @@ jobs:
           echo "AWS_SECRET_ACCESS_KEY=${ZNAP_AWS_SECRET_ACCESS_KEY}" >> $GITHUB_ENV
 
   nextjs:
+    needs: cdk
     runs-on: ubuntu-latest
-
     environment: preview
-
+    
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -90,14 +90,11 @@ jobs:
       AUTH_GITHUB_SECRET: ${{secrets.AUTH_GITHUB_SECRET}}
 
       AUTH_SECRET: ${{secrets.AUTH_SECRET}}
-
-      AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-      # AWS_ACCESS_KEY_ID: ${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}
-      # AWS_SECRET_ACCESS_KEY: ${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}
+    
       AWS_TABLE_NAME: ${{ vars.AWS_TABLE_NAME }}
 
-    needs: cdk
+      # AWS_ACCESS_KEY_ID: ${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}
+      # AWS_SECRET_ACCESS_KEY: ${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}
 
     steps:
       - name: Checkout
@@ -125,8 +122,8 @@ jobs:
 
       - name: Debug outputs from cdk
         run: |
-          echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
-          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
+          echo "AWS_ACCESS_KEY_ID is: $AWS_ACCESS_KEY_ID"
+          echo "AWS_SECRET_ACCESS_KEY is:: $AWS_SECRET_ACCESS_KEY"
 
       - name: Update .vercel/.env.preview.local
         run: |
