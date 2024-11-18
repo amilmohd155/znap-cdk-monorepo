@@ -20,7 +20,7 @@ import { cache } from "react";
 
 export async function getUrlFromShortCode(shortCode: string) {
   const input: GetCommandInput = {
-    TableName: process.env.TABLE_NAME,
+    TableName: process.env.AWS_TABLE_NAME,
     Key: {
       PK: `URL#${shortCode}`,
       SK: "DETAILS",
@@ -50,7 +50,7 @@ export const createShortUrl = cache(
     // * Check for existing url | If existing url found | return it
     const existingUrlScan = await DynamoDBClient.send(
       new ScanCommand({
-        TableName: process.env.TABLE_NAME,
+        TableName: process.env.AWS_TABLE_NAME,
         FilterExpression: "longUrl = :url",
         ExpressionAttributeValues: {
           ":url": url,
@@ -74,7 +74,7 @@ export const createShortUrl = cache(
     const transactionItems = [
       {
         Put: {
-          TableName: process.env.TABLE_NAME,
+          TableName: process.env.AWS_TABLE_NAME,
           Item: {
             PK: `URL#${shortCode}`,
             SK: "DETAILS",
@@ -95,7 +95,7 @@ export const createShortUrl = cache(
     if (userId) {
       transactionItems.push({
         Put: {
-          TableName: process.env.TABLE_NAME,
+          TableName: process.env.AWS_TABLE_NAME,
           Item: {
             PK: `USER#${userId}`,
             SK: `URL#${shortCode}`,
@@ -132,7 +132,7 @@ export const createShortUrl = cache(
 export async function getUserHistory(userId: string) {
   const result = await DynamoDBClient.send(
     new QueryCommand({
-      TableName: process.env.TABLE_NAME,
+      TableName: process.env.AWS_TABLE_NAME,
       IndexName: "GSI1",
       KeyConditionExpression: "GSI1PK = :pk",
       ExpressionAttributeValues: {

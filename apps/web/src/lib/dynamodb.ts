@@ -22,7 +22,7 @@ const client = DynamoDBDocument.from(new DynamoDB(config), {
 });
 
 const adapter = DynamoDBAdapter(client, {
-  tableName: process.env.TABLE_NAME,
+  tableName: process.env.AWS_TABLE_NAME,
   partitionKey: "PK",
   sortKey: "SK",
 });

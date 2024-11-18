@@ -96,6 +96,7 @@ jobs:
 
       AWS_ACCESS_KEY_ID: ${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}
+      AWS_TABLE_NAME: ${{ vars.AWS_TABLE_NAME }}
 
     needs: cdk
 
@@ -115,7 +116,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
@@ -123,13 +124,17 @@ jobs:
       - name: Pull vercel environment inforamation
         run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
+      - name: Pull the GitHub environment variables
+        run: |
+          echo "AWS_REGION=${{vars.AWS_REGION}}" >> $GITHUB_ENV
+          echo "AWS_ACCESS_KEY_ID=${{needs.cdk.outputs.AWS_ACCESS_KEY_ID}}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{needs.cdk.outputs.AWS_SECRET_ACCESS_KEY}}" >> $GITHUB_ENV
+          echo "AUTH_GITHUB_ID=${{secrets.AUTH_GITHUB_ID}}" >> $GITHUB_ENV
+          echo "AUTH_GITHUB_SECRET=${{secrets.AUTH_GITHUB_SECRET}}" >> $GITHUB_ENV
+          echo "AUTH_SECRET=${{secrets.AUTH_SECRET}}" >> $GITHUB_ENV
+          echo "AWS_TABLE_NAME=${{vars.AWS_TABLE_NAME}}" >> $GITHUB_ENV
+
       - name: Build project artifacts
-        env:
-          AUTH_GITHUB_ID: ${{secrets.AUTH_GITHUB_ID}}
-          AUTH_GITHUB_SECRET: ${{secrets.AUTH_GITHUB_SECRET}}
-          AUTH_SECRET: ${{secrets.AUTH_SECRET}}
-          AWS_ACCESS_KEY_ID: ${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}
         run: vercel build --token=${{secrets.VERCEL_TOKEN}}
 
       - name: Deploy project artifacts
