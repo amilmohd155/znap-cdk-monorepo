@@ -42,7 +42,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log("RootLayout", process.env.AUTH_SECRET);
+  console.log("RootLayout: AUTH_SECRET", process.env.AUTH_SECRET);
+  console.log("RootLayout: AWS_REGION", process.env.AWS_REGION);
 
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
