@@ -124,7 +124,10 @@ jobs:
       - name: Pull vercel environment inforamation
         run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
-      - name: Sync Environment Variables to Vercel
+      - name: Display .vercel/.env.preview.local Content
+        run: cat .vercel/.env.preview.local
+
+      - name: Pull the GitHub environment variables
         run: |
           vercel env add preview AWS_REGION "${{ vars.AWS_REGION }}" --token=${{ secrets.VERCEL_TOKEN }}
           vercel env add preview AWS_ACCESS_KEY_ID "${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}" --token=${{ secrets.VERCEL_TOKEN }}
