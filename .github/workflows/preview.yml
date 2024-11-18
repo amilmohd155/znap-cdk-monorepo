@@ -124,15 +124,15 @@ jobs:
       - name: Pull vercel environment inforamation
         run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
-      - name: Pull the GitHub environment variables
+      - name: Sync Environment Variables to Vercel
         run: |
-          echo "AWS_REGION=${{vars.AWS_REGION}}" >> $GITHUB_ENV
-          echo "AWS_ACCESS_KEY_ID=${{needs.cdk.outputs.AWS_ACCESS_KEY_ID}}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${{needs.cdk.outputs.AWS_SECRET_ACCESS_KEY}}" >> $GITHUB_ENV
-          echo "AUTH_GITHUB_ID=${{secrets.AUTH_GITHUB_ID}}" >> $GITHUB_ENV
-          echo "AUTH_GITHUB_SECRET=${{secrets.AUTH_GITHUB_SECRET}}" >> $GITHUB_ENV
-          echo "AUTH_SECRET=${{secrets.AUTH_SECRET}}" >> $GITHUB_ENV
-          echo "AWS_TABLE_NAME=${{vars.AWS_TABLE_NAME}}" >> $GITHUB_ENV
+          vercel env add preview AWS_REGION "${{ vars.AWS_REGION }}" --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env add preview AWS_ACCESS_KEY_ID "${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}" --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env add preview AWS_SECRET_ACCESS_KEY "${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}" --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env add preview AUTH_GITHUB_ID "${{ secrets.AUTH_GITHUB_ID }}" --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env add preview AUTH_GITHUB_SECRET "${{ secrets.AUTH_GITHUB_SECRET }}" --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env add preview AUTH_SECRET "${{ secrets.AUTH_SECRET }}" --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env add preview AWS_TABLE_NAME "${{ vars.AWS_TABLE_NAME }}" --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build project artifacts
         run: vercel build --token=${{secrets.VERCEL_TOKEN}}
