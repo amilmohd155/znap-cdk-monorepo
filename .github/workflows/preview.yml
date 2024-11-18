@@ -73,13 +73,13 @@ jobs:
             ,${{vars.AWS_SECRET_NAME}}
           parse-json-secrets: true
 
-      # - name: Set outputs
-      #   id: set-outputs
-      #   run: |
-      #     ACCESS_KEY_ID=$(echo "${{ steps.secrets.outputs.secrets }}" | jq -r '.ZNAP_URL_SECRET_AWS_ACCESS_KEY_ID')
-      #     SECRET_ACCESS_KEY=$(echo "${{ steps.secrets.outputs.secrets }}" | jq -r '.ZNAP_URL_SECRET_AWS_SECRET_ACCESS_KEY')
-      #     echo "AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID" >> $GITHUB_OUTPUT
-      #     echo "AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY" >> $GITHUB_OUTPUT
+      - name: Set outputs
+        id: set-outputs
+        run: |
+          ACCESS_KEY_ID=$(echo "${{ steps.secrets.outputs.secrets }}" | jq -r '.ZNAP_AWS_ACCESS_KEY_ID')
+          SECRET_ACCESS_KEY=$(echo "${{ steps.secrets.outputs.secrets }}" | jq -r '.ZNAP_AWS_SECRET_ACCESS_KEY')
+          echo "AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID" >> $GITHUB_OUTPUT
+          echo "AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY" >> $GITHUB_OUTPUT
 
   nextjs:
     runs-on: ubuntu-latest
