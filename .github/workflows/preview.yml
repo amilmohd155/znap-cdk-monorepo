@@ -115,16 +115,11 @@ jobs:
       - name: Pull vercel environment inforamation
         run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
-      - name: Debug outputs from cdk
-        run: |
-          echo "AWS_ACCESS_KEY_ID is: $AWS_ACCESS_KEY_ID"
-          echo "AWS_SECRET_ACCESS_KEY is:: $AWS_SECRET_ACCESS_KEY"
-
       - name: Update .vercel/.env.preview.local
         run: |
           echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .vercel/.env.preview.local
-          echo "AWS_ACCESS_KEY_ID=$AWS_SECRET_ACCESS_KEY" >> .vercel/.env.preview.local
-          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> .vercel/.env.preview.local
+          echo "AWS_ACCESS_KEY_ID=$ZNAP_AWS_SECRET_ACCESS_KEY" >> .vercel/.env.preview.local
+          echo "AWS_SECRET_ACCESS_KEY=$ZNAP_AWS_SECRET_ACCESS_KEY" >> .vercel/.env.preview.local
           echo "AUTH_GITHUB_ID=${{ secrets.AUTH_GITHUB_ID }}" >> .vercel/.env.preview.local
           echo "AUTH_GITHUB_SECRET=${{ secrets.AUTH_GITHUB_SECRET }}" >> .vercel/.env.preview.local
           echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .vercel/.env.preview.local
