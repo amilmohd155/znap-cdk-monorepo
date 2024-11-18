@@ -124,6 +124,9 @@ jobs:
       - name: Pull vercel environment inforamation
         run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
+      - name: Display .vercel/.env.preview.local Content
+        run: cat .vercel/.env.preview.local
+
       - name: Pull the GitHub environment variables
         run: |
           echo "AWS_REGION=${{vars.AWS_REGION}}" >> $GITHUB_ENV
