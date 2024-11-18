@@ -69,7 +69,8 @@ jobs:
         id: secrets
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
-          secret-ids: ${{vars.AWS_SECRET_NAME}}
+          secret-ids: |
+            ,${{vars.AWS_SECRET_NAME}}
           parse-json-secrets: true
 
       # - name: Set outputs
