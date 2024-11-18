@@ -109,10 +109,10 @@ export class CdkStack extends cdk.Stack {
     const templatedSecret = new Secret(this, "TemplatedSecret", {
       secretName: config.AWS_SECRET_NAME,
       secretObjectValue: {
-        ZNAP_AWS_ACCESS_KEY_ID: cdk.SecretValue.unsafePlainText(
+        AWS_ACCESS_KEY_ID: cdk.SecretValue.unsafePlainText(
           accessKey.accessKeyId
         ),
-        ZNAP_AWS_SECRET_ACCESS_KEY: accessKey.secretAccessKey,
+        AWS_SECRET_ACCESS_KEY: accessKey.secretAccessKey,
       },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });

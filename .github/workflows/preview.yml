@@ -11,8 +11,6 @@ permissions:
 
 env:
   AWS_REGION: ${{vars.AWS_REGION}}
-  AWS_ACCESS_KEY_ID: ""
-  AWS_SECRET_ACCESS_KEY: "" 
 
 jobs:
   cdk:
@@ -63,25 +61,11 @@ jobs:
           pnpm run build
           cdk deploy Prev/* --require-approval never
 
-      - name: Get secrets from AWS Secrets Manager
-        id: secrets
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: |
-            ,${{vars.AWS_SECRET_NAME}}
-          parse-json-secrets: true
-
-      - name: Set outputs
-        id: set-outputs
-        run: |
-          echo "AWS_ACCESS_KEY_ID=${ZNAP_AWS_ACCESS_KEY_ID}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${ZNAP_AWS_SECRET_ACCESS_KEY}" >> $GITHUB_ENV
-
   nextjs:
     needs: cdk
     runs-on: ubuntu-latest
     environment: preview
-    
+
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -90,11 +74,8 @@ jobs:
       AUTH_GITHUB_SECRET: ${{secrets.AUTH_GITHUB_SECRET}}
 
       AUTH_SECRET: ${{secrets.AUTH_SECRET}}
-    
-      AWS_TABLE_NAME: ${{ vars.AWS_TABLE_NAME }}
 
-      # AWS_ACCESS_KEY_ID: ${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}
-      # AWS_SECRET_ACCESS_KEY: ${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}
+      AWS_TABLE_NAME: ${{ vars.AWS_TABLE_NAME }}
 
     steps:
       - name: Checkout
@@ -113,6 +94,14 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Get secrets from AWS Secrets Manager
+        id: secrets
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: |
+            ,${{vars.AWS_SECRET_NAME}}
+          parse-json-secrets: true
 
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
