@@ -124,6 +124,11 @@ jobs:
       - name: Pull vercel environment inforamation
         run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
 
+      - name: Display outputs
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ needs.cdk.outputs.AWS_ACCESS_KEY_ID }}"
+          echo "AWS_SECRET_ACCESS_KEY=${{ needs.cdk.outputs.AWS_SECRET_ACCESS_KEY }}"
+
       - name: Update .vercel/.env.preview.local
         run: |
           echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .vercel/.env.preview.local
