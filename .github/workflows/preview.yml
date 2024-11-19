@@ -138,7 +138,7 @@ jobs:
       - name: Set Vercel Env Variable
         run: |
           echo ${{ vars.AWS_REGION }} | vercel env add AWS_REGION preview --token=${{ secrets.VERCEL_TOKEN }} 
-          echo $ZNAP_AWS_SECRET_ACCESS_KEY | vercel env add AWS_ACCESS_KEY_ID preview --token=${{ secrets.VERCEL_TOKEN }} 
+          echo $ZNAP_AWS_ACCESS_KEY_ID | vercel env add AWS_ACCESS_KEY_ID preview --token=${{ secrets.VERCEL_TOKEN }} 
           echo $ZNAP_AWS_SECRET_ACCESS_KEY | vercel env add AWS_SECRET_ACCESS_KEY preview --token=${{ secrets.VERCEL_TOKEN }} 
           echo ${{ secrets.AUTH_GITHUB_ID }} | vercel env add AUTH_GITHUB_ID preview --token=${{ secrets.VERCEL_TOKEN }} 
           echo ${{ secrets.AUTH_GITHUB_SECRET }} | vercel env add AUTH_GITHUB_SECRET preview --token=${{ secrets.VERCEL_TOKEN }} 
