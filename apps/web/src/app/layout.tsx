@@ -44,6 +44,13 @@ export default async function RootLayout({
 }>) {
   console.log("RootLayout: AUTH_SECRET", process.env.AUTH_SECRET);
   console.log("RootLayout: AWS_REGION", process.env.AWS_REGION);
+  console.log("RootLayout: AWS_ACCESS_KEY_ID", process.env.AWS_ACCESS_KEY_ID);
+  console.log(
+    "RootLayout: AWS_SECRET_ACCESS_KEY",
+    process.env.AWS_SECRET_ACCESS_KEY
+  );
+  console.log("RootLayout: AUTH_GITHUB_ID", process.env.AUTH_GITHUB_ID);
+  console.log("RootLayout: AUTH_GITHUB_SECRET", process.env.AUTH_GITHUB_SECRET);
 
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
