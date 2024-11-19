@@ -128,11 +128,11 @@ jobs:
       - name: Verify .vercel/.env.preview.local Content
         run: cat .vercel/.env.preview.local
 
-      - name: Display .vercel/.env.preview.local Content
-        run: cat .vercel/.env.preview.local
-
       - name: Build project artifacts
-        run: vercel build --token=${{secrets.VERCEL_TOKEN}}
+
+        run: |
+          echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .env
+          vercel build --token=${{secrets.VERCEL_TOKEN}}
 
       - name: Deploy project artifacts
         run: vercel deploy --prebuilt --token=${{secrets.VERCEL_TOKEN}}
