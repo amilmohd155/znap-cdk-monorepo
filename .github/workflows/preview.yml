@@ -130,23 +130,23 @@ jobs:
 
       - name: Remove Existing Vercel Environment Variables (if any)
         run: |
-          vercel env ls | grep AWS_REGION && vercel env rm AWS_REGION preview --yes || echo "AWS_REGION not found"
-          vercel env ls | grep AWS_ACCESS_KEY_ID && vercel env rm AWS_ACCESS_KEY_ID preview --yes || echo "AWS_ACCESS_KEY_ID not found"
-          vercel env ls | grep AWS_SECRET_ACCESS_KEY && vercel env rm AWS_SECRET_ACCESS_KEY preview --yes || echo "AWS_SECRET_ACCESS_KEY not found"
-          vercel env ls | grep AUTH_GITHUB_ID && vercel env rm AUTH_GITHUB_ID preview --yes || echo "AUTH_GITHUB_ID not found"
-          vercel env ls | grep AUTH_GITHUB_SECRET && vercel env rm AUTH_GITHUB_SECRET preview --yes || echo "AUTH_GITHUB_SECRET not found"
-          vercel env ls | grep AUTH_SECRET && vercel env rm AUTH_SECRET preview --yes || echo "AUTH_SECRET not found"
-          vercel env ls | grep AWS_TABLE_NAME && vercel env rm AWS_TABLE_NAME preview --yes || echo "AWS_TABLE_NAME not found"
+          vercel env ls --token=${{ secrets.VERCEL_TOKEN }} | grep AWS_REGION && vercel env rm AWS_REGION preview --yes --token=${{ secrets.VERCEL_TOKEN }} || echo "AWS_REGION not found"
+          vercel env ls --token=${{ secrets.VERCEL_TOKEN }} | grep AWS_ACCESS_KEY_ID && vercel env rm AWS_ACCESS_KEY_ID preview --yes --token=${{ secrets.VERCEL_TOKEN }} || echo "AWS_ACCESS_KEY_ID not found"
+          vercel env ls --token=${{ secrets.VERCEL_TOKEN }} | grep AWS_SECRET_ACCESS_KEY && vercel env rm AWS_SECRET_ACCESS_KEY preview --yes --token=${{ secrets.VERCEL_TOKEN }} || echo "AWS_SECRET_ACCESS_KEY not found"
+          vercel env ls --token=${{ secrets.VERCEL_TOKEN }} | grep AUTH_GITHUB_ID && vercel env rm AUTH_GITHUB_ID preview --yes --token=${{ secrets.VERCEL_TOKEN }} || echo "AUTH_GITHUB_ID not found"
+          vercel env ls --token=${{ secrets.VERCEL_TOKEN }} | grep AUTH_GITHUB_SECRET && vercel env rm AUTH_GITHUB_SECRET preview --yes --token=${{ secrets.VERCEL_TOKEN }} || echo "AUTH_GITHUB_SECRET not found"
+          vercel env ls --token=${{ secrets.VERCEL_TOKEN }} | grep AUTH_SECRET && vercel env rm AUTH_SECRET preview --yes --token=${{ secrets.VERCEL_TOKEN }} || echo "AUTH_SECRET not found"
+          vercel env ls --token=${{ secrets.VERCEL_TOKEN }} | grep AWS_TABLE_NAME && vercel env rm AWS_TABLE_NAME preview --yes --token=${{ secrets.VERCEL_TOKEN }} || echo "AWS_TABLE_NAME not found"
 
       - name: Set Vercel Env Variable
         run: |
-          echo "AWS_REGION=${{ vars.AWS_REGION }}" | vercel env add AWS_REGION preview
-          echo "ZNAP_AWS_SECRET_ACCESS_KEY=$ZNAP_AWS_SECRET_ACCESS_KEY" | vercel env add AWS_ACCESS_KEY_ID
-          echo "ZNAP_AWS_SECRET_ACCESS_KEY=$ZNAP_AWS_SECRET_ACCESS_KEY" | vercel env add AWS_SECRET_ACCESS_KEY
-          echo "AUTH_GITHUB_ID=${{ secrets.AUTH_GITHUB_ID }}" | vercel env add AUTH_GITHUB_ID
-          echo "AUTH_GITHUB_SECRET=${{ secrets.AUTH_GITHUB_SECRET }}" | vercel env add AUTH_GITHUB_SECRET
-          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" | vercel env add AUTH_SECRET
-          echo "${{ vars.AWS_TABLE_NAME }}" | vercel env add AWS_TABLE_NAME
+          echo "AWS_REGION=${{ vars.AWS_REGION }}" | vercel env add AWS_REGION preview --token=${{ secrets.VERCEL_TOKEN }} 
+          echo "ZNAP_AWS_SECRET_ACCESS_KEY=$ZNAP_AWS_SECRET_ACCESS_KEY" | vercel env add AWS_ACCESS_KEY_ID preview --token=${{ secrets.VERCEL_TOKEN }} 
+          echo "ZNAP_AWS_SECRET_ACCESS_KEY=$ZNAP_AWS_SECRET_ACCESS_KEY" | vercel env add AWS_SECRET_ACCESS_KEY preview --token=${{ secrets.VERCEL_TOKEN }} 
+          echo "AUTH_GITHUB_ID=${{ secrets.AUTH_GITHUB_ID }}" | vercel env add AUTH_GITHUB_ID preview --token=${{ secrets.VERCEL_TOKEN }} 
+          echo "AUTH_GITHUB_SECRET=${{ secrets.AUTH_GITHUB_SECRET }}" | vercel env add AUTH_GITHUB_SECRET preview --token=${{ secrets.VERCEL_TOKEN }} 
+          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" | vercel env add AUTH_SECRET preview --token=${{ secrets.VERCEL_TOKEN }} 
+          echo "${{ vars.AWS_TABLE_NAME }}" | vercel env add AWS_TABLE_NAME preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build project artifacts
 
